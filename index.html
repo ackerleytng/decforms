@@ -78,7 +78,7 @@
        const withoutFragment = window.location.href.split('#')[0]
        const addr = `${withoutFragment}#${toFragment(form)}`;
        $("#form").empty();
-       $("#form").html(`Try visiting <a href=${addr}>${addr}</a>`);
+       $("#form").html(`Try visiting <a href="https://bit.ly/33xZkKg">https://bit.ly/33xZkKg</a> or <a href=${addr}>${addr.substring(0, 100)}...</a>`);
      }
 
      const displayForm = () => {
