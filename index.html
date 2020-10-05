@@ -1,0 +1,108 @@
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+    <link type="text/css" href="https://cdn.jsdelivr.net/npm/alpaca@1.5.27/dist/alpaca/bootstrap/alpaca.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/alpaca@1.5.27/dist/alpaca/bootstrap/alpaca.min.js"></script>
+
+    <script type="text/javascript">
+     const toFragment = (json) => btoa(JSON.stringify(json));
+     const fromFragment = (s) => JSON.parse(atob(s));
+
+     const form = {
+       "data": {
+         "name": "John Doe",
+         "feedback": "Very impressive.",
+         "ranking": "excellent"
+       },
+       "schema": {
+         "title":"User Feedback",
+         "description":"What do you think about Alpaca?",
+         "type":"object",
+         "properties": {
+           "name": {
+             "type":"string",
+             "title":"Name",
+             "required":true
+           },
+           "feedback": {
+             "type":"string",
+             "title":"Feedback"
+           },
+           "ranking": {
+             "type":"string",
+             "title":"Ranking",
+             "enum":['excellent','ok','so so'],
+             "required":true
+           }
+         }
+       },
+       "options": {
+         "form":{
+           "attributes":{
+             "action":"http://httpbin.org/post",
+             "method":"post"
+           },
+           "buttons":{
+             "submit":{}
+           }
+         },
+         "helper": "Tell us what you think about Alpaca!",
+         "fields": {
+           "name": {
+             "size": 20,
+             "helper": "Please enter your name."
+           },
+           "feedback" : {
+             "type": "textarea",
+             "name": "your_feedback",
+             "rows": 5,
+             "cols": 40,
+             "helper": "Please enter your feedback."
+           },
+           "ranking": {
+             "type": "select",
+             "helper": "Select your ranking.",
+             "optionLabels": ["Awesome!",
+                              "It's Ok",
+                              "Hmm..."]
+           }
+         }
+       },
+       "view" : "bootstrap-edit"
+     };
+
+     const showDefault = () => {
+       const withoutFragment = window.location.href.split('#')[0]
+       const addr = `${withoutFragment}#${toFragment(form)}`;
+       $("#form").empty();
+       $("#form").html(`Try visiting <a href=${addr}>${addr}</a>`);
+     }
+
+     const displayForm = () => {
+       try {
+         if (location.hash && location.hash.length > 0) {
+           $("#form").empty();
+           $("#form").alpaca(fromFragment((window.location.hash.substring(1))));
+         } else {
+           showDefault();
+         }
+       } catch(e) {
+         showDefault();
+       }
+     }
+
+     window.addEventListener("hashchange", displayForm, false);
+     $(document).ready(displayForm);
+    </script>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>DecForms Demo</h2>
+      <div id="form"></div>
+    </div>
+  </body>
+</html>
