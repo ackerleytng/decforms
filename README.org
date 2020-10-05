@@ -1,0 +1,9 @@
+* DecForms
+
+DecForms allows you to dynamically generate a form, declaratively, on the
+client with no backend.
+
+Simply create a special link with the form declaratively encoded in the url
+fragment and share that link!
+
+See the demo at https://ackerleytng.github.io/decforms/!
